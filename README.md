@@ -1,12 +1,12 @@
-# project-showcase
+# Launchpad
 
 A CLI tool that turns a JSON config into a live project showcase page on your own subdomain in under 60 seconds.
 
 ## What It Is
 
-`project-showcase` is a deployment tool that generates static project showcase websites from a simple config file and deploys them automatically to a custom subdomain. Each project gets its own dedicated page at `projectname.yourdomain.com`.
+`launchpad` is a deployment tool that generates static project showcase websites from a simple config file and deploys them automatically to a custom subdomain. Each project gets its own dedicated page at `projectname.yourdomain.com`.
 
-The tool itself is showcased as a project — its own page was generated and deployed using `project-showcase`.
+The tool itself is showcased as a project — its own page was generated and deployed using `launchpad`.
 
 ## How It Works
 
@@ -34,7 +34,7 @@ Each page includes a hero section, project introduction, screenshots, tech stack
   "images": ["./screenshots/hero.png", "./screenshots/demo.png"],
   "links": {
     "github": "https://github.com/you/project",
-    "live": "https://project.yourdomain.com"
+    "live": "https://project.yourdomain.com"  // optional — omit if not deployed
   }
 }
 ```
@@ -44,5 +44,5 @@ Each page includes a hero section, project introduction, screenshots, tech stack
 Each project deploys to its own subdomain via Cloudflare Pages. Subdomains are configured automatically through the Cloudflare API.
 
 ```
-showcase deploy --config ./showcase.config.json --subdomain myproject
+launchpad deploy --config ./showcase.config.json --subdomain myproject
 ```
