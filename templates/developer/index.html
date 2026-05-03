@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{.Name}}</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #00ff9c;
+      --green-dim: #00cc7a;
+      --bg: #0d0d0d;
+      --surface: #111;
+      --border: #1e1e1e;
+      --text: #c8c8c8;
+      --muted: #555;
+      --prompt: #555;
+    }
+
+    body {
+      font-family: ui-monospace, 'Cascadia Code', 'Fira Code', monospace;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .terminal {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 2rem 6rem;
+    }
+
+    /* Window chrome */
+    .window-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-red { background: #ff5f57; }
+    .dot-yellow { background: #ffbd2e; }
+    .dot-green { background: #28c840; }
+    .window-title { margin-left: auto; font-size: 0.75rem; color: var(--muted); }
+
+    /* Prompt lines */
+    .prompt { color: var(--prompt); }
+    .prompt::before { content: "$ "; color: var(--green); }
+
+    /* Hero block */
+    .hero { margin-bottom: 3rem; }
+
+    .cmd-line {
+      margin-bottom: 0.25rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .cmd-line::before { content: "# "; }
+
+    h1 {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 700;
+      color: var(--green);
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .tagline { color: var(--text); margin-bottom: 1.5rem; }
+
+    .hero-links { display: flex; gap: 1.5rem; margin-top: 1rem; }
+
+    .hero-links a {
+      color: var(--green-dim);
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+
+    .hero-links a::before { content: "→ "; }
+    .hero-links a:hover { color: var(--green); }
+
+    /* Sections */
+    section { margin-bottom: 3rem; }
+
+    .section-header {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-header::before { content: "## "; color: var(--green); }
+
+    .description { color: var(--text); max-width: 680px; }
+
+    .features { list-style: none; }
+
+    .features li {
+      color: var(--text);
+      padding: 0.2rem 0;
+    }
+
+    .features li::before { content: "  - "; color: var(--green); }
+
+    .video-embed {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .video-embed iframe,
+    .video-embed video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+
+    .images { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .images img { width: 100%; display: block; }
+
+    .code-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--green);
+      position: relative;
+    }
+
+    .code-block::before {
+      content: "$ ";
+      color: var(--prompt);
+    }
+
+    .tech-stack { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+    .badge {
+      font-size: 0.78rem;
+      padding: 0.2rem 0.6rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .badge::before { content: "["; color: var(--green); }
+    .badge::after { content: "]"; color: var(--green); }
+
+    .cursor {
+      display: inline-block;
+      width: 0.55em;
+      height: 1.1em;
+      background: var(--green);
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  </style>
+</head>
+<body>
+  <div class="terminal">
+
+    <div class="window-bar">
+      <div class="dot dot-red"></div>
+      <div class="dot dot-yellow"></div>
+      <div class="dot dot-green"></div>
+      <span class="window-title">{{.Name}} — showcase</span>
+    </div>
+
+    <div class="hero">
+      <p class="cmd-line">project info</p>
+      <h1>{{.Name}}<span class="cursor"></span></h1>
+      <p class="tagline">{{.Tagline}}</p>
+      <div class="hero-links">
+        {{if .Links.GitHub}}<a href="{{.Links.GitHub}}" target="_blank" rel="noopener">github</a>{{end}}
+        {{if .Links.Live}}<a href="{{.Links.Live}}" target="_blank" rel="noopener">live</a>{{end}}
+      </div>
+    </div>
+
+    <section>
+      <p class="section-header">about</p>
+      <p class="description">{{.Description}}</p>
+    </section>
+
+    {{if .Features}}
+    <section>
+      <p class="section-header">features</p>
+      <ul class="features">{{range .Features}}<li>{{.}}</li>{{end}}</ul>
+    </section>
+    {{end}}
+
+    {{if .VideoType}}
+    <section>
+      <p class="section-header">demo</p>
+      <div class="video-embed">
+        {{if eq .VideoType "mp4"}}
+        <video src="{{.VideoEmbedURL}}" controls playsinline></video>
+        {{else}}
+        <iframe src="{{.VideoEmbedURL}}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        {{end}}
+      </div>
+    </section>
+    {{end}}
+
+    {{if .Media.Images}}
+    <section>
+      <p class="section-header">screenshots</p>
+      <div class="images">
+        {{range .Media.Images}}<img src="{{.}}" alt="{{$.Name}} screenshot" />{{end}}
+      </div>
+    </section>
+    {{end}}
+
+    {{if .QuickStart}}
+    <section>
+      <p class="section-header">quick start</p>
+      <div class="code-block">{{.QuickStart}}</div>
+    </section>
+    {{end}}
+
+    {{if .TechStack}}
+    <section>
+      <p class="section-header">stack</p>
+      <div class="tech-stack">{{range .TechStack}}<span class="badge">{{.}}</span>{{end}}</div>
+    </section>
+    {{end}}
+
+  </div>
+</body>
+</html>

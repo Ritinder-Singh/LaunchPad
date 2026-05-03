@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{.Name}}</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: #fafaf8;
+      color: #111;
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 5rem 2rem 6rem;
+    }
+
+    header { margin-bottom: 3rem; }
+
+    h1 {
+      font-size: 2.8rem;
+      font-weight: normal;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+
+    .tagline {
+      font-size: 1.15rem;
+      color: #555;
+    }
+
+    section { margin-bottom: 3rem; }
+
+    h2 {
+      font-size: 0.75rem;
+      font-family: ui-monospace, 'Cascadia Code', monospace;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 1rem;
+    }
+
+    .description { font-size: 1.05rem; color: #333; }
+
+    .features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .features li::before {
+      content: "→ ";
+      color: #999;
+    }
+
+    .features li { font-size: 1rem; color: #333; }
+
+    .video-embed {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 6px;
+      border: 1px solid #e5e5e0;
+    }
+
+    .video-embed iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+
+    .video-embed video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+
+    .images {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .images img {
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid #e5e5e0;
+    }
+
+    .quick-start {
+      background: #f0f0eb;
+      border-radius: 4px;
+      padding: 1rem 1.25rem;
+      font-family: ui-monospace, 'Cascadia Code', monospace;
+      font-size: 0.9rem;
+      color: #111;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .badge {
+      font-family: ui-monospace, 'Cascadia Code', monospace;
+      font-size: 0.8rem;
+      padding: 0.25rem 0.65rem;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      color: #444;
+    }
+
+    .links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .links a {
+      font-size: 0.95rem;
+      color: #111;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .links a:hover { color: #555; }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <h1>{{.Name}}</h1>
+      <p class="tagline">{{.Tagline}}</p>
+    </header>
+
+    <section>
+      <h2>About</h2>
+      <p class="description">{{.Description}}</p>
+    </section>
+
+    {{if .Features}}
+    <section>
+      <h2>Features</h2>
+      <ul class="features">
+        {{range .Features}}<li>{{.}}</li>{{end}}
+      </ul>
+    </section>
+    {{end}}
+
+    {{if .VideoType}}
+    <section>
+      <h2>Demo</h2>
+      <div class="video-embed">
+        {{if eq .VideoType "mp4"}}
+        <video src="{{.VideoEmbedURL}}" controls playsinline></video>
+        {{else}}
+        <iframe src="{{.VideoEmbedURL}}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        {{end}}
+      </div>
+    </section>
+    {{end}}
+
+    {{if .Media.Images}}
+    <section>
+      <h2>Screenshots</h2>
+      <div class="images">
+        {{range .Media.Images}}
+        <img src="{{.}}" alt="{{$.Name}} screenshot" />
+        {{end}}
+      </div>
+    </section>
+    {{end}}
+
+    {{if .QuickStart}}
+    <section>
+      <h2>Quick start</h2>
+      <pre class="quick-start">{{.QuickStart}}</pre>
+    </section>
+    {{end}}
+
+    {{if .TechStack}}
+    <section>
+      <h2>Built with</h2>
+      <div class="tech-stack">
+        {{range .TechStack}}<span class="badge">{{.}}</span>{{end}}
+      </div>
+    </section>
+    {{end}}
+
+    <section>
+      <h2>Links</h2>
+      <div class="links">
+        {{if .Links.GitHub}}<a href="{{.Links.GitHub}}" target="_blank" rel="noopener">GitHub</a>{{end}}
+        {{if .Links.Live}}<a href="{{.Links.Live}}" target="_blank" rel="noopener">Live site</a>{{end}}
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>
