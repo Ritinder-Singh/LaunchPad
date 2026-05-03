@@ -1,0 +1,26 @@
+{
+  "name": "Launchpad",
+  "tagline": "Deploy a project showcase page to your own subdomain from a single JSON config.",
+  "description": "Launchpad is a CLI tool that reads a showcase.config.json, generates a static project showcase page from a built-in or custom template, and deploys it automatically to a custom subdomain via Cloudflare Pages.",
+  "features": [
+    "Deploy to a custom subdomain in under 60 seconds",
+    "3 built-in templates — minimal, bold, developer",
+    "Custom HTML template support",
+    "YouTube, Vimeo, and local video embeds"
+  ],
+  "quickStart": "go install github.com/mrmackaniel/launchpad@latest",
+  "techStack": ["Go", "HTML", "Cloudflare Pages"],
+  "media": {
+    "images": [],
+    "video": ""
+  },
+  "links": {
+    "github": "https://github.com/mrmackaniel/launchpad"
+  },
+  "template": "developer",
+  "deploy": {
+    "subdomain": "launchpad",
+    "domain": "yourdomain.com",
+    "provider": "cloudflare"
+  }
+}

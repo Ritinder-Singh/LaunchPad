@@ -1,48 +1,75 @@
 # Launchpad
 
-A CLI tool that turns a JSON config into a live project showcase page on your own subdomain in under 60 seconds.
+Deploy a project showcase page to your own subdomain from a single JSON config.
 
 ## What It Is
 
-`launchpad` is a deployment tool that generates static project showcase websites from a simple config file and deploys them automatically to a custom subdomain. Each project gets its own dedicated page at `projectname.yourdomain.com`.
+`launchpad` is a Go CLI tool that reads a `showcase.config.json`, generates a static project showcase page from a built-in (or custom) template, and deploys it automatically to a custom subdomain via Cloudflare Pages.
 
 The tool itself is showcased as a project — its own page was generated and deployed using `launchpad`.
 
 ## How It Works
 
 1. Create a `showcase.config.json` for your project
-2. Run `npx showcase deploy`
+2. Run `launchpad deploy`
 3. Your project page is live at `projectname.yourdomain.com`
 
-Each page includes a hero section, project introduction, screenshots, tech stack, and links — all driven by the config file.
+## Commands
 
-## Stack
-
-- **Template:** Astro — outputs pure static HTML, no JS overhead
-- **CLI:** Node.js — distributable via `npx`
-- **Deployment:** Cloudflare Pages — free tier, fast subdomain setup via API
-- **Config:** `showcase.config.json` — one file per project
+```
+launchpad init              # scaffold showcase.config.json interactively
+launchpad preview           # serve the generated page locally
+launchpad deploy            # build + deploy to Cloudflare Pages
+launchpad templates list    # list available built-in templates
+```
 
 ## Config Format
 
 ```json
 {
   "name": "My Project",
-  "tagline": "A short description of what this does",
-  "description": "A longer introduction to the project...",
-  "techStack": ["TypeScript", "Astro", "Cloudflare Pages"],
+  "tagline": "Short one-liner",
+  "description": "Longer intro paragraph...",
+  "techStack": ["Go", "Astro", "Cloudflare Pages"],
   "images": ["./screenshots/hero.png", "./screenshots/demo.png"],
   "links": {
     "github": "https://github.com/you/project",
-    "live": "https://project.yourdomain.com"  // optional — omit if not deployed
+    "live": "https://project.yourdomain.com"
+  },
+  "template": "minimal",
+  "deploy": {
+    "subdomain": "myproject",
+    "domain": "yourdomain.com",
+    "provider": "cloudflare"
   }
 }
 ```
 
+`links.live` is optional — omit it if the project isn't deployed anywhere.
+
+`template` accepts a built-in name (`minimal`, `bold`, `developer`) or a path to your own HTML file (`./my-template.html`).
+
+## Built-in Templates
+
+| Name | Description |
+|---|---|
+| `minimal` | Clean, whitespace-heavy, typography-focused |
+| `bold` | Dark background, large hero, accent color |
+| `developer` | Terminal/code aesthetic, monospace font |
+
+## Stack
+
+- **CLI:** Go — single binary, no runtime dependencies
+- **Templates:** Pre-built HTML/CSS embedded in the binary via `go:embed`
+- **Deployment:** Cloudflare Pages (primary) — see [DEPLOYERS.md](./DEPLOYERS.md) for planned providers
+
 ## Deployment
 
-Each project deploys to its own subdomain via Cloudflare Pages. Subdomains are configured automatically through the Cloudflare API.
+Requires a Cloudflare API token with Pages and DNS permissions:
 
 ```
-launchpad deploy --config ./showcase.config.json --subdomain myproject
+export CLOUDFLARE_API_TOKEN=your_token
+export CLOUDFLARE_ACCOUNT_ID=your_account_id
+
+launchpad deploy
 ```
