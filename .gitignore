@@ -1,1 +1,7 @@
 TODO.md
+.showcase/dist/
+.showcase/.bin/
+.showcase/.worktree/
+.showcase/.capture.js
+*.jpg
+*.png

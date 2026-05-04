@@ -4,23 +4,25 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/charmbracelet/huh"
 	"github.com/mrmackaniel/launchpad/internal/config"
+	"github.com/mrmackaniel/launchpad/internal/project"
 	"github.com/spf13/cobra"
 )
 
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "Scaffold a showcase.config.json interactively",
+	Short: "Scaffold .showcase/config.json interactively",
 	RunE:  runInit,
 }
 
 var initOutput string
 
 func init() {
-	initCmd.Flags().StringVarP(&initOutput, "output", "o", "showcase.config.json", "output file path")
+	initCmd.Flags().StringVarP(&initOutput, "output", "o", config.DefaultConfigPath, "output file path")
 }
 
 func runInit(cmd *cobra.Command, args []string) error {
@@ -38,6 +40,9 @@ func runInit(cmd *cobra.Command, args []string) error {
 		}
 	}
 
+	// Auto-detect project type for smarter defaults
+	detected := project.Detect(".")
+
 	var (
 		name        string
 		tagline     string
@@ -51,6 +56,9 @@ func runInit(cmd *cobra.Command, args []string) error {
 		subdomain   string
 		domain      string
 		template    string
+		buildCmd    = detected.BuildCmd
+		startCmd    = detected.StartCmd
+		portStr     = fmt.Sprintf("%d", detected.Port)
 	)
 
 	if err := huh.NewForm(
@@ -70,6 +78,17 @@ func runInit(cmd *cobra.Command, args []string) error {
 			huh.NewInput().Title("Demo video URL").Description("YouTube, Vimeo, or .mp4 path — optional").Value(&videoURL),
 		),
 		huh.NewGroup(
+			huh.NewInput().Title("Build command").
+				Description(fmt.Sprintf("Detected: %q — leave blank to use default", detected.BuildCmd)).
+				Value(&buildCmd),
+			huh.NewInput().Title("Start command").
+				Description("Command to run the app locally for screenshot capture").
+				Value(&startCmd),
+			huh.NewInput().Title("App port").
+				Description("Port the app listens on (for screenshot capture)").
+				Value(&portStr),
+		),
+		huh.NewGroup(
 			huh.NewSelect[string]().Title("Template").Options(
 				huh.NewOption("minimal — clean, typography-focused", "minimal"),
 				huh.NewOption("bold — dark hero, high contrast", "bold"),
@@ -81,6 +100,9 @@ func runInit(cmd *cobra.Command, args []string) error {
 	).Run(); err != nil {
 		return err
 	}
+
+	port := detected.Port
+	fmt.Sscanf(portStr, "%d", &port)
 
 	features := splitLines(featuresRaw)
 	techStack := splitCommas(techRaw)
@@ -98,7 +120,15 @@ func runInit(cmd *cobra.Command, args []string) error {
 		Deploy: config.Deploy{
 			Subdomain: subdomain,
 			Domain:    domain,
-			Provider:  "cloudflare",
+		},
+		Build: config.Build{
+			Command:      buildCmd,
+			StartCommand: startCmd,
+			Port:         port,
+		},
+		Screenshots: config.Screenshots{
+			Dir:         ".showcase/screenshots",
+			AutoCapture: true,
 		},
 	}
 
@@ -107,12 +137,16 @@ func runInit(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
+	if err := os.MkdirAll(filepath.Dir(initOutput), 0755); err != nil {
+		return err
+	}
+
 	if err := os.WriteFile(initOutput, data, 0644); err != nil {
 		return err
 	}
 
 	fmt.Printf("\nCreated %s\n", initOutput)
-	fmt.Printf("Run `launchpad preview` to see it locally.\n")
+	fmt.Println("Run `launchpad preview` to preview, or `launchpad deploy` to deploy.")
 	return nil
 }
 

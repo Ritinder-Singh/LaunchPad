@@ -212,11 +212,18 @@
     </section>
     {{end}}
 
-    {{if .Media.Images}}
+    {{if .Screenshots}}
     <section>
       <p class="section-header">screenshots</p>
       <div class="images">
-        {{range .Media.Images}}<img src="{{.}}" alt="{{$.Name}} screenshot" />{{end}}
+        {{range .Screenshots}}<img src="{{.}}" alt="{{$.Name}} screenshot" loading="lazy" />{{end}}
+      </div>
+    </section>
+    {{else if .Media.Images}}
+    <section>
+      <p class="section-header">screenshots</p>
+      <div class="images">
+        {{range .Media.Images}}<img src="{{.}}" alt="{{$.Name}} screenshot" loading="lazy" />{{end}}
       </div>
     </section>
     {{end}}

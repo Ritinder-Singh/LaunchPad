@@ -19,9 +19,10 @@ type templateData struct {
 	*config.Config
 	VideoEmbedURL string
 	VideoType     string
+	Screenshots   []string // relative paths from dist root, e.g. "screenshots/foo.png"
 }
 
-func Render(cfg *config.Config) ([]byte, error) {
+func Render(cfg *config.Config, screenshots []string) ([]byte, error) {
 	var raw []byte
 	var err error
 
@@ -48,6 +49,7 @@ func Render(cfg *config.Config) ([]byte, error) {
 		Config:        cfg,
 		VideoEmbedURL: embedURL,
 		VideoType:     videoType,
+		Screenshots:   screenshots,
 	}
 
 	var buf bytes.Buffer

@@ -36,7 +36,7 @@ func TestRenderBuiltin(t *testing.T) {
 		Template:    "minimal",
 	}
 
-	out, err := tmpl.Render(cfg)
+	out, err := tmpl.Render(cfg, nil)
 	if err != nil {
 		t.Fatalf("Render() error: %v", err)
 	}
@@ -66,7 +66,7 @@ func TestResolveVideoYouTube(t *testing.T) {
 		Media:    config.Media{Video: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"},
 	}
 
-	out, err := tmpl.Render(cfg)
+	out, err := tmpl.Render(cfg, nil)
 	if err != nil {
 		t.Fatalf("Render() error: %v", err)
 	}
@@ -85,7 +85,7 @@ func TestResolveVideoMP4(t *testing.T) {
 		Media:    config.Media{Video: "./demo.mp4"},
 	}
 
-	out, err := tmpl.Render(cfg)
+	out, err := tmpl.Render(cfg, nil)
 	if err != nil {
 		t.Fatalf("Render() error: %v", err)
 	}

@@ -15,12 +15,12 @@
     "video": ""
   },
   "links": {
-    "github": "https://github.com/mrmackaniel/launchpad"
+    "github": "https://github.com/Ritinder-Singh/LaunchPad"
   },
-  "template": "developer",
+  "template": "minimal",
   "deploy": {
     "subdomain": "launchpad",
-    "domain": "yourdomain.com",
+    "domain": "ritinder-singh.com",
     "provider": "cloudflare"
   }
 }
