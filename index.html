@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Launchpad</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: #fafaf8;
+      color: #111;
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 5rem 2rem 6rem;
+    }
+
+    header { margin-bottom: 3rem; }
+
+    h1 {
+      font-size: 2.8rem;
+      font-weight: normal;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+
+    .tagline {
+      font-size: 1.15rem;
+      color: #555;
+    }
+
+    section { margin-bottom: 3rem; }
+
+    h2 {
+      font-size: 0.75rem;
+      font-family: ui-monospace, 'Cascadia Code', monospace;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 1rem;
+    }
+
+    .description { font-size: 1.05rem; color: #333; }
+
+    .features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .features li::before {
+      content: "→ ";
+      color: #999;
+    }
+
+    .features li { font-size: 1rem; color: #333; }
+
+    .video-embed {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 6px;
+      border: 1px solid #e5e5e0;
+    }
+
+    .video-embed iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+
+    .video-embed video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+
+    .images {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .images img {
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid #e5e5e0;
+    }
+
+    .quick-start {
+      background: #f0f0eb;
+      border-radius: 4px;
+      padding: 1rem 1.25rem;
+      font-family: ui-monospace, 'Cascadia Code', monospace;
+      font-size: 0.9rem;
+      color: #111;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .badge {
+      font-family: ui-monospace, 'Cascadia Code', monospace;
+      font-size: 0.8rem;
+      padding: 0.25rem 0.65rem;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      color: #444;
+    }
+
+    .links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .links a {
+      font-size: 0.95rem;
+      color: #111;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .links a:hover { color: #555; }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <h1>Launchpad</h1>
+      <p class="tagline">Deploy a project showcase page to your own subdomain from a single JSON config.</p>
+    </header>
+
+    <section>
+      <h2>About</h2>
+      <p class="description">Launchpad is a CLI tool that reads a showcase.config.json, generates a static project showcase page from a built-in or custom template, and deploys it automatically to a custom subdomain via Cloudflare Pages.</p>
+    </section>
+
+    
+    <section>
+      <h2>Features</h2>
+      <ul class="features">
+        <li>Deploy to a custom subdomain in under 60 seconds</li><li>3 built-in templates — minimal, bold, developer</li><li>Custom HTML template support</li><li>YouTube, Vimeo, and local video embeds</li>
+      </ul>
+    </section>
+    
+
+    
+
+    
+    <section>
+      <h2>Screenshots</h2>
+      <div class="images">
+        
+        <img src="screenshots/Screenshot%202026-05-05%20at%201.53.58%e2%80%afAM.png" alt="Launchpad screenshot" loading="lazy" />
+        
+      </div>
+    </section>
+    
+
+    
+    <section>
+      <h2>Quick start</h2>
+      <pre class="quick-start">go install github.com/mrmackaniel/launchpad@latest</pre>
+    </section>
+    
+
+    
+    <section>
+      <h2>Built with</h2>
+      <div class="tech-stack">
+        <span class="badge">Go</span><span class="badge">HTML</span><span class="badge">Cloudflare Pages</span>
+      </div>
+    </section>
+    
+
+    <section>
+      <h2>Links</h2>
+      <div class="links">
+        <a href="https://github.com/Ritinder-Singh/LaunchPad" target="_blank" rel="noopener">GitHub</a>
+        
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>
